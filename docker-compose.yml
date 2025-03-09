@@ -1,0 +1,21 @@
+services:
+  web:
+    build: .
+    platform: linux/arm64
+    ports:
+      - "18088:80"
+    volumes:
+      - .:/var/www/html
+      - ./uploads:/var/www/html/Uploads
+    environment:
+      - DB_HOST=
+      - DB_NAME=
+      - DB_USER=
+      - DB_PWD=
+
+networks:
+  default:
+    driver: bridge
+
+volumes:
+  mysql_data: 
