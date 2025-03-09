@@ -133,11 +133,11 @@
                 <legend>数据库配置</legend>
                 <div>
                     <label>数据库主机</label>
-                    <input type="text" name="db_host" value="localhost">
+                    <input type="text" name="db_host" value="db:3306">
                 </div>
                 <div>
                     <label>数据库用户名</label>
-                    <input type="text" name="db_user" value="root">
+                    <input type="text" name="db_user" value="xxjz">
                 </div>
                 <div>
                     <label>数据库密码</label>
@@ -145,7 +145,7 @@
                 </div>
                 <div>
                     <label>数据库名称</label>
-                    <input type="text" name="db_name" value="">
+                    <input type="text" name="db_name" value="xxjz">
                 </div>
                 <div>
                     <label>数据库表前缀</label>
