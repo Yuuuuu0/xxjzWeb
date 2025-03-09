@@ -114,7 +114,7 @@
                     <div><p></p></div>
                     <div class="am-input-group">
                         <span class="am-input-group-label"><b>备注</b></span>
-                        <input type="text" class="am-form-field" id="text-mark" name="add_mark" placeholder="输入支出信息">
+                        <input type="text" class="am-form-field" id="text-mark" name="add_mark" placeholder="输入收入信息">
                         <span class="am-input-group-btn am-form-file">
                             <button type="button" class="am-btn am-btn-default"><i class="am-icon-cloud-upload"></i> 上传图片</button>
                             <input id="doc-form-file-in" type="file" name="add_photo[]" accept=".jpg, .gif, .png, .jpeg" multiple />
@@ -154,6 +154,9 @@
       }
 
       $(function() {
+        // 页面加载时自动切换到收入标签
+        $('.am-tabs-nav li a:contains("收入")').click();
+        
         $('#doc-form-tabs').find('a').on('opened.tabs.amui', function(e) {
           if ($(this).text() == '转账') {
             window.location.href=$(this).context.href;
