@@ -8,10 +8,23 @@ services:
       - .:/var/www/html
       - ./uploads:/var/www/html/Uploads
     environment:
-      - DB_HOST=
-      - DB_NAME=
-      - DB_USER=
-      - DB_PWD=
+      - DB_HOST=db
+      - DB_NAME=xxjz
+      - DB_USER=xxjz
+      - DB_PWD=5Qk9B8uvaRMcfLfpN
+    depends_on:
+      - db
+
+  db:
+    image: mysql:8.0
+    restart: always
+    volumes:
+      - mysql_data:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=G4xMQ8gBX8v7xb%xvH
+      - MYSQL_DATABASE=xxjz
+      - MYSQL_USER=xxjz
+      - MYSQL_PASSWORD=5Qk9B8uvaRMcfLfpN
 
 networks:
   default:
