@@ -7,7 +7,7 @@ services:
     volumes:
       - ./uploads:/var/www/html/Uploads
     environment:
-      - DB_HOST=db
+      - DB_HOST=db:3306
       - DB_NAME=xxjz
       - DB_USER=xxjz
       - DB_PWD=5Qk9B8uvaRMcfLfpN
