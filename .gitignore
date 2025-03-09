@@ -1,5 +1,62 @@
+# IDE & Editor Files
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+.project
+.settings/
+*.swp
+.DS_Store
 
-Application/Home/sftp-config.json
+# Build & Compile
+/dist
+/build
+/out
 *.exe
+*.dll
+*.so
+*.dylib
+
+# Dependencies
+/node_modules
+/vendor
+/bower_components
+composer.phar
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# Environment & Config
+.env
+.env.local
+.env.*.local
+config.local.php
+sftp-config.json
+
+# Cache & Temp
+*.log
+*.cache
+.temp
+.tmp
+*.tmp
+
+# Package Files
 *.zip
+*.rar
+*.tar.gz
+*.7z
+
+# Application Specific
+/Application/Home/sftp-config.json
 *.txt
+/uploads
+/storage/*.key
+
+# Runtime & Cache
+/Application/Home/Runtime/
+/Runtime/
+/runtime/
+
+# System Files
+.DS_Store
+Thumbs.db
