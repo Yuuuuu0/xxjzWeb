@@ -3,7 +3,7 @@
     <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0, user-scalable=yes" />
-    <title>小歆记账Web升级向导</title>
+    <title>Web升级向导</title>
     <style type="text/css">
         body {
             font-family: Arial, Helvetica, sans-serif;
@@ -398,7 +398,7 @@
     function ShowForm() {
         echo <<<___
     <div id="formwrapper">
-        <h3 class="enter"><p>小歆记账Web升级向导</p></h3><br/>
+        <h3 class="enter"><p>Web升级向导</p></h3><br/>
         <form action="updata.php" method="post">
             <fieldset>
                 <legend>升级说明</legend>
@@ -439,7 +439,7 @@ ___;
     {
         echo <<<___
     <div id="formwrapper">
-        <h3 class="enter"><p>小歆记账Web安装向导</p></h3><br/>
+        <h3 class="enter"><p>Web安装向导</p></h3><br/>
         <form action="updata.php" method="post">
             <fieldset>
                 <legend>创建管理员</legend>

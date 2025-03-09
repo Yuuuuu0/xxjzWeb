@@ -3,7 +3,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0, user-scalable=yes" />
-    <title>小歆记账Web安装向导</title>
+    <title>Web安装向导</title>
     <style type="text/css">
     body {
         font-family: Arial, Helvetica, sans-serif;
@@ -95,7 +95,7 @@
 <body>
     <?php
         if (file_exists('install.tmp')) {
-            ShowAlert('你已经安装过小歆记账，如需重装请删除根目录下的“install.tmp”文件!','无法安装');
+            ShowAlert('你已经安装过，如需重装请删除根目录下的“install.tmp”文件!','无法安装');
         } elseif (version_compare(PHP_VERSION,'5.3.0','<')) {
             ShowAlert('PHP版本过低，请使用5.3及其以上版本！','无法安装');
         } elseif (checkPath('./Application/Common/Conf/config.php') == false) {
@@ -127,7 +127,7 @@
         } else {
     ?>
     <div id="formwrapper">
-        <h3 class="enter"><p>小歆记账Web安装向导</p></h3><br/>
+        <h3 class="enter"><p>Web安装向导</p></h3><br/>
         <form action="install.php" method="post">   
             <fieldset>
                 <legend>数据库配置</legend>
@@ -382,7 +382,7 @@
         $txt = $txt."'MAIL_USERNAME'     => '".$EmailData['user']."',              // 邮箱用户名 \n";
         $txt = $txt."'MAIL_PASSWORD'     => '".$EmailData['psw'] ."',              // 邮箱密码 \n";
         $txt = $txt."'MAIL_FROM'         => '".$EmailData['from']."',              // 发件人邮箱 \n";
-        $txt = $txt."'MAIL_FROMNAME'     => '小歆记账',      // 发件人名字 \n";
+        $txt = $txt."'MAIL_FROMNAME'     => '记账通知',      // 发件人名字 \n";
 
         $txt = $txt."\n//微信小程序配置\n";
         $txt = $txt."'WX_ENABLE'         => false,            //使能微信小程序功能 \n";
@@ -390,10 +390,10 @@
         $txt = $txt."'WX_SECRET'         => 'secret',        //微信小程序的 app secret \n";
 
         $txt = $txt."\n//自定义配置\n";
-        $txt = $txt."'XXJZ_TITLE'        => '小歆记账',       //网站名称\n";
+        $txt = $txt."'XXJZ_TITLE'        => 'Yu记账',       //网站名称\n";
         $txt = $txt."'XXJZ_KEYWORDS'     => '',              //网站关键字\n";
         $txt = $txt."'XXJZ_DESCRIPTION'  => '',              //网站描述\n";
-        $txt = $txt."'XXJZ_WELCOME'      => '欢迎使用小歆记账！',     //网站欢迎语\n";
+        $txt = $txt."'XXJZ_WELCOME'      => '欢迎使用Yu记账！',     //网站欢迎语\n";
 
         $txt = $txt."//管理员配置\n";
         $txt = $txt."'ADMIN_UID'         => 1,               //管理员UID\n";

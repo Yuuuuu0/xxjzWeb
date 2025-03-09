@@ -42,7 +42,7 @@ class LoginController extends Controller {
                     $StrHtml = U('Home/Login/forget','p='.$String,'',true);
                     //发送邮件
                     $address = $from;
-                    $subject = "找回密码 - 小歆记账APP";
+                    $subject = "找回密码 - 记账APP";
                     $body    = "<br>".$username."：<br />请点击下面的链接，按流程进行密码重设。（两小时内有效）<br><a href=\"".$StrHtml."\">确认密码找回</a></br><pre>".$StrHtml."</pre></br>";   
                     $file    = null;
                     if (!SendMail($address,$subject,$body,$file)) {

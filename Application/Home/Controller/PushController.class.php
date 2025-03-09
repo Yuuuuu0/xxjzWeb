@@ -151,7 +151,7 @@ class PushController extends Controller {
 
             //发送推送
             $arrData = array();
-            $arrData[0] = "小歆记账打卡"; //打卡名称
+            $arrData[0] = "记账打卡"; //打卡名称
             $arrData[1] = "记账"; //打卡方式
             $arrData[2] = $dbData['time']; //打卡时间
             $arrData[3] = "您已经".$punchNum."天没有记账了，赶紧“进入小程序”开始记账吧。"; //完成情况
