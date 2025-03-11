@@ -5,6 +5,10 @@ class ChartController extends BaseController {
     public function index(){
         $uid = session('uid');
         $y = I('get.year', date('Y'), 'int');
+        
+        // 手动清除缓存，确保数据显示正确
+        ClearDataCache();
+        
         $DataJson = getYearData($y,$uid);
         // dump($DataJson) ;
         $DataArray = json_decode($DataJson,TRUE);

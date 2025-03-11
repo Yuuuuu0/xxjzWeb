@@ -20,6 +20,19 @@
                 </if>
             </select>
         </div>
+        <div><p></p></div>
+        <div class="am-input-group">
+            <span class="am-input-group-label"><b>状态</b></span>
+            <select id="select-status" class="am-form-field" name="class_status">
+                <if condition="$ClassStatus eq 1">
+                    <option value="1">启用</option>
+                    <option value="0">禁用</option>
+                <else/>
+                    <option value="0">禁用</option>
+                    <option value="1">启用</option>
+                </if>
+            </select>
+        </div>
         <p><input type="submit" class="am-btn am-btn-secondary am-btn-block" name="class_submit" value="编辑"></p>
         
         <p><a href="javascript:void(0);" class="am-btn am-btn-block am-btn-danger" 

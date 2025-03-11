@@ -6,11 +6,15 @@ class ClassController extends BaseController {
         $uid = session('uid');
         $ClassType = I('get.class', 2);
         
+        // 手动清除缓存，确保数据显示正确
+        ClearDataCache();
+        
         if(IS_POST){
             $data = array();
             $data['classname'] = I('post.class_name');
             $data['classtype'] = I('post.class_type/d');
             $data['ufid']      = $uid;
+            $data['status']    = I('post.class_status/d', 1);
             $Updata = AddNewClass($data);
             ClearDataCache(); //清除缓存
             $ClassType = $data['classtype'];
@@ -33,6 +37,7 @@ class ClassController extends BaseController {
             if(IS_POST){
                 $ClassName = I('post.class_name');
                 $ClassType = I('post.class_type/d');
+                $ClassStatus = I('post.class_status/d', 1);
                 ClearDataCache(); //清除缓存
                 if(intval($DbData[1]['classtype']) != intval($ClassType)) {
                     $Change = ChangeClassType($ClassId,$uid);
@@ -41,7 +46,7 @@ class ClassController extends BaseController {
                         $this -> display('Public/base');
                     }
                 }
-                $ret = editClassName($ClassName, $ClassId, $ClassType, $uid);
+                $ret = editClassName($ClassName, $ClassId, $ClassType, $uid, $ClassStatus);
                 ShowAlert($ret[1],U('Home/Class/index/type/'.$ClassType));
                 $this -> display('Public/base');
             }else{
@@ -49,6 +54,7 @@ class ClassController extends BaseController {
                     $this -> assign('ClassId',$ClassId);
                     $this -> assign('ClassName',$DbData[1]['classname']);
                     $this -> assign('ClassType',$DbData[1]['classtype']);
+                    $this -> assign('ClassStatus',isset($DbData[1]['status']) ? $DbData[1]['status'] : 1);
                     $this -> display();
                 }else{
                     $this -> error($DbData[1]);

@@ -307,9 +307,17 @@
             S('account_funds_'.$uid,null);
             S('account_funds_data_'.$uid,null);
             S('account_class_data_'.$uid,null);
+            S('account_class_data_'.$uid.'_filtered',null);
+            S('account_class_data_'.$uid.'_type1',null);
+            S('account_class_data_'.$uid.'_type1_filtered',null);
+            S('account_class_data_'.$uid.'_type2',null);
+            S('account_class_data_'.$uid.'_type2_filtered',null);
             S('account_class_0_'.$uid,null);
             S('account_class_1_'.$uid,null);
             S('account_class_2_'.$uid,null);
+            S('account_class_0_'.$uid.'_filtered',null);
+            S('account_class_1_'.$uid.'_filtered',null);
+            S('account_class_2_'.$uid.'_filtered',null);
             S('account_tatistic_'.$uid,null);
             S('account_data_'.$uid,null);
             S('chart_year_'.$uid,null);
@@ -463,14 +471,24 @@
     }
     
     //获取分类数据(用户id,1=收入 2=支出)
-    function GetClassData($uid,$type=0) {
+    function GetClassData($uid, $type=0, $filter_status=false) {
         $strSQL = array();
         $strSQL['ufid'] = $uid;
         if($type) {
             $strSQL['classtype'] = $type;
         }
+        // 根据参数决定是否只获取启用的分类
+        if($filter_status) {
+            $strSQL['status'] = 1;
+        }
         
-        $DbClass = M('account_class')->cache('account_class_'.$type.'_'.$uid)->where($strSQL)->order('sort,classid')->select();
+        // 缓存键需要考虑filter_status参数，确保不同条件下使用不同缓存
+        $cache_key = 'account_class_'.$type.'_'.$uid;
+        if($filter_status) {
+            $cache_key .= '_filtered';
+        }
+        
+        $DbClass = M('account_class')->cache($cache_key)->where($strSQL)->order('sort,classid')->select();
         
         //$ret = array();
         foreach($DbClass as $key => $Data) {
@@ -1534,6 +1552,10 @@
         $isCheak = CheakNewClass($data);
         if($isCheak[0]){
             $data = $isCheak[1];
+            // 确保status字段有值，默认为1（启用）
+            if(!isset($data['status'])) {
+                $data['status'] = 1;
+            }
             $DbData = M('account_class')->add($data);
             ClearDataCache();
             if($DbData > 0){
@@ -1590,13 +1612,17 @@
     }
 
     //修改分类名
-    function editClassName($ClassName, $ClassId, $ClassType, $uid) {
+    function editClassName($ClassName, $ClassId, $ClassType, $uid, $Status = 1) {
         $isCheak = CheakClassName($ClassName, $uid, $ClassType, $ClassId);
         if($isCheak[0]) {
             $sql = array('classid' => intval($ClassId), 'ufid' => intval($uid));
-            $ret = M("account_class")->where($sql)->setField('classname',$ClassName);
+            $data = array(
+                'classname' => $ClassName,
+                'status' => intval($Status)
+            );
+            $ret = M("account_class")->where($sql)->save($data);
             ClearDataCache();
-            return array(true,'分类名修改成功！');
+            return array(true,'分类修改成功！');
         }else{
             return $isCheak;
         }
@@ -1669,6 +1695,10 @@
         $sql = 'classid = '.intval($ClassId).' and ufid = '.$uid;
         $ClassData = M("account_class")->where($sql)->find();
         if(is_array($ClassData)){
+            // 兼容旧数据，确保有status字段
+            if(!isset($ClassData['status'])) {
+                $ClassData['status'] = 1; // 默认为启用状态
+            }
             return array(true,$ClassData);
         }else{
             return array(false,'分类id不存在~');
@@ -1685,16 +1715,31 @@
     }
 
     //获取分类所有数据(用户id,1=收入 2=支出) -- GetClassData函数的加强版
-    function GetClassAllData($uid,$type=0) {
-        $CacheData = S('account_class_data_'.$uid);
+    function GetClassAllData($uid, $type=0, $filter_status=false) {
+        // 缓存键需要考虑filter_status和type参数
+        $cache_key = 'account_class_data_'.$uid;
+        if($type) {
+            $cache_key .= '_type'.$type;
+        }
+        if($filter_status) {
+            $cache_key .= '_filtered';
+        }
+        
+        $CacheData = S($cache_key);
         if($CacheData) {
             return $CacheData;
         }
+        
         $strSQL = array();
         $strSQL['ufid'] = $uid;
         if($type) {
             $strSQL['classtype'] = $type;
         }
+        // 根据参数决定是否只获取启用的分类
+        if($filter_status) {
+            $strSQL['status'] = 1;
+        }
+        
         $DbClass = M('account_class')->where($strSQL)->order('sort,classid')->select();
         $CacheData = array();
         foreach($DbClass as $key => $Data) {
@@ -1706,7 +1751,7 @@
             $classMoney = floatval(M('account')->where($sql)->sum('acmoney'));
             array_push($CacheData, array('id'=>$classId, 'name'=>$className, 'type'=>$classType, 'count'=>$classCount, 'money'=>$classMoney));
         }
-        S('account_class_data_'.$uid, $CacheData);
+        S($cache_key, $CacheData);
         return $CacheData;
     }
 
@@ -1723,6 +1768,7 @@
             $dOutSumClassMoney = array(); //分类支出金额
             $dSurplusMoney  = array(); //日剩余金额
             $dSurplusSumMoney  = array(); //日剩余金额
+            // 获取所有分类数据（不过滤status）
             $ArrInClass  = GetClassData($uid, 1);
             $ArrOutClass = GetClassData($uid, 2);
             //日数据统计
@@ -1785,6 +1831,7 @@
             $mInClassMoney  = array(); //分类收入金额
             $mOutClassMoney = array(); //分类支出金额
             $mSurplusMoney  = array(); //年剩余金额
+            // 获取所有分类数据（不过滤status）
             $ArrInClass  = GetClassData($uid, 1);
             $ArrOutClass = GetClassData($uid, 2);
             for($m=1;$m<=12;$m++){

@@ -62,8 +62,8 @@ class EditController extends BaseController {
             $DbData = GetIdData($id);
             $FundsData = GetFundsData($uid);
             $DbFunds = $DbData['fid'];
-            $MoneyClass[1] = GetClassData($uid,1);
-            $MoneyClass[2] = GetClassData($uid,2);
+            $MoneyClass[1] = GetClassData($uid, 1, true);
+            $MoneyClass[2] = GetClassData($uid, 2, true);
             $DbClass = $MoneyClass[$DbData['zhifu']];
             $ShowData = ArrDataToShowData($DbData, $DbClass);
             $ImageData = GetImageData($uid, $id);

@@ -178,35 +178,38 @@ class ApiController extends Controller {
             D('UserPush')->addPush($data['formId'], 'Weixin', "class." . $type);
         }
 
+        // 是否只获取启用的分类
+        $filter_status = isset($data['filter_status']) ? boolval($data['filter_status']) : false;
+
         switch ($type) {
             case 'get':
-                $arrData['data']['in']  = GetClassData($uid, 1);
-                $arrData['data']['out'] = GetClassData($uid, 2);
-                $arrData['data']['all'] = GetClassData($uid);
+                $arrData['data']['in']  = GetClassData($uid, 1, $filter_status);
+                $arrData['data']['out'] = GetClassData($uid, 2, $filter_status);
+                $arrData['data']['all'] = GetClassData($uid, 0, $filter_status);
                 break;
             
             case 'getin':
-                $arrData['data'] = GetClassData($uid, 1);
+                $arrData['data'] = GetClassData($uid, 1, $filter_status);
                 break;
             
             case 'getout':
-                $arrData['data'] = GetClassData($uid, 2);
+                $arrData['data'] = GetClassData($uid, 2, $filter_status);
                 break;
 
             case 'getall':
-                $arrData['data'] = GetClassData($uid);
+                $arrData['data'] = GetClassData($uid, 0, $filter_status);
                 break;
 
             case 'getindata':
-                $arrData['data'] = GetClassAllData($uid, 1);
+                $arrData['data'] = GetClassAllData($uid, 1, $filter_status);
                 break;
             
             case 'getoutdata':
-                $arrData['data'] = GetClassAllData($uid, 2);
+                $arrData['data'] = GetClassAllData($uid, 2, $filter_status);
                 break;
 
             case 'getalldata':
-                $arrData['data'] = GetClassAllData($uid);
+                $arrData['data'] = GetClassAllData($uid, 0, $filter_status);
                 break;
 
             case 'addall':

@@ -43,8 +43,8 @@ class FindController extends BaseController {
         }
 
         //表单信息
-        $this -> assign('inClassData',GetClassData($uid,1));
-        $this -> assign('outClassData',GetClassData($uid,2));
+        $this -> assign('inClassData',GetClassData($uid, 1, true));
+        $this -> assign('outClassData',GetClassData($uid, 2, true));
         $this -> assign('FundsData',GetFundsData($uid));
         
         if($data) {

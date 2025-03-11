@@ -34,8 +34,9 @@ class AddController extends BaseController {
             $DbFunds[$data[id]] = $data[name];
         }
 
-        $MoneyClass[1] = GetClassData($uid,1);
-        $MoneyClass[2] = GetClassData($uid,2);
+        // 获取分类数据，过滤status=1的分类
+        $MoneyClass[1] = GetClassData($uid, 1, true);
+        $MoneyClass[2] = GetClassData($uid, 2, true);
         if (!is_array($MoneyClass[2])) {
             ShowAlert('请先添加记账分类', U('/Home/Class/index'));
         } elseif (!is_array($MoneyClass[1])) {
@@ -48,7 +49,7 @@ class AddController extends BaseController {
         $this -> assign('outMoneyClass',$MoneyClass[2]);
         $this -> assign('MoneyClass',"'".htmlspecialchars(json_encode($MoneyClass))."'");
         
-        //整合List表格数组
+        //整合List表格数组, 这里不需要过滤分类状态
         $ListData = OutListData(GetAccountData($uid, 1),GetClassData($uid),$DbFunds);
         $this -> assign('ShowData', $ListData[2]);
 
